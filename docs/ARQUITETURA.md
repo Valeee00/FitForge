@@ -150,7 +150,7 @@ As regras de validação do frontend (`domain.js`) são as mesmas dos microsserv
 
 `npm run build` compila os remotes, compila o shell e copia os artefatos completos para a pasta de publicação. O domínio único simplifica a atividade acadêmica e evita configuração entre origens.
 
-Os builds continuam distintos e federados em runtime, mesmo dentro de um único pacote de publicação. O workflow `.github/workflows/azure-static-web-apps-orange-glacier-0887de110.yml` publica o conjunto.
+Os builds continuam distintos e federados em runtime, mesmo dentro de um único pacote de publicação. O workflow `.github/workflows/azure-static-web-apps.yml` publica o conjunto.
 
 Para deploy independente, publique um remote completo em sua pasta correspondente, preservando a interface `./App`, `./api` e a versão de React compatível. Para hospedagens separadas, ajuste o loader do shell para URLs HTTPS fixas/configuráveis e valide os cabeçalhos necessários dos recursos servidos. Não use URLs localhost em produção.
 

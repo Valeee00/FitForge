@@ -1,0 +1,64 @@
+# Publica o FitForge no Azure Static Web Apps.
+# Configuração no GitHub (Settings -> Secrets and variables -> Actions):
+#   Secrets   -> AZURE_STATIC_WEB_APPS_API_TOKEN: token de implantação do Static Web App
+#   Variables -> FITFORGE_API_URL: URL do FitForge-API_Gateway (ex.: https://xxx.azurewebsites.net)
+name: Azure Static Web Apps CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build_and_deploy_job:
+    if: github.event_name != 'pull_request' || github.event.action != 'closed'
+    runs-on: ubuntu-latest
+    name: Build and Deploy Job
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Testes, build e integração
+        run: npm run check
+        env:
+          # Endereço do API Gateway (Atividade 16). Cadastre em
+          # Settings -> Secrets and variables -> Actions -> aba "Variables".
+          # Vazio = o app funciona só com localStorage.
+          FITFORGE_API_URL: ${{ vars.FITFORGE_API_URL }}
+
+      - name: Publicar dist/ no Azure Static Web Apps
+        id: builddeploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "dist"
+          api_location: ""
+          output_location: ""
+          skip_app_build: true
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: "close"

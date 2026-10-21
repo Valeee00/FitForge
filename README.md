@@ -8,6 +8,14 @@ Aplicativo de treino de academia desenvolvido em **React**, utilizando **Module 
 
 Hospedado no Azure Static Web Apps.
 
+## Repositórios do projeto
+
+| Camada | Repositório | Atividade |
+|---|---|---|
+| Frontend (este) | [Valeee00/FitForge](https://github.com/Valeee00/FitForge) | 13 — Microfrontend |
+| Microsserviços | [Valeee00/FitForge-Microservicos](https://github.com/Valeee00/FitForge-Microservicos) | 14 — Microsserviços |
+| API Gateway + BFF | [Valeee00/FitForge-API_Gateway](https://github.com/Valeee00/FitForge-API_Gateway) | 16 — API Gateway e BFF |
+
 ## Funcionalidades
 
 - **Meus treinos:** criar, consultar, editar e excluir fichas com exercícios, séries, repetições e cargas.
