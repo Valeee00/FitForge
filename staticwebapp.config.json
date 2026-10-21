@@ -1,0 +1,13 @@
+{
+  "navigationFallback": {
+    "rewrite": "/index.html",
+    "exclude": ["/*.js", "/*.css", "/*.json", "/mfe-workouts/*", "/mfe-progress/*"]
+  },
+  "routes": [
+    { "route": "/mfe-workouts/remoteEntry.js", "headers": { "Cache-Control": "no-cache" } },
+    { "route": "/mfe-progress/remoteEntry.js", "headers": { "Cache-Control": "no-cache" } },
+    { "route": "/index.html", "headers": { "Cache-Control": "no-cache" } }
+  ],
+  "globalHeaders": { "X-Content-Type-Options": "nosniff", "Referrer-Policy": "strict-origin-when-cross-origin" },
+  "mimeTypes": { ".js": "application/javascript", ".json": "application/json" }
+}

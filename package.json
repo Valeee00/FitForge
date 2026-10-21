@@ -1,0 +1,43 @@
+{
+  "name": "fitforge-federation",
+  "version": "1.0.0",
+  "private": true,
+  "description": "App acadêmico de academia com React e Webpack Module Federation",
+  "engines": {
+    "node": ">=22",
+    "npm": ">=10"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently -k -n SHELL,TREINOS,PROGRESSO -c cyan,yellow,magenta \"npm run dev -w @fitforge/shell\" \"npm run dev -w @fitforge/workouts\" \"npm run dev -w @fitforge/progress\"",
+    "build:remotes": "npm run build -w @fitforge/workouts && npm run build -w @fitforge/progress",
+    "build:shell": "npm run build -w @fitforge/shell",
+    "build": "npm run build:remotes && npm run build:shell && node scripts/assemble.mjs",
+    "preview": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "check": "npm test && npm run build && npm run test:integration",
+    "test:integration": "node --test tests/federation.integration.mjs"
+  },
+  "dependencies": {
+    "lucide-react": "0.468.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@babel/core": "7.29.7",
+    "@babel/preset-env": "7.26.0",
+    "@babel/preset-react": "7.25.9",
+    "babel-loader": "9.2.1",
+    "concurrently": "9.1.0",
+    "css-loader": "7.1.2",
+    "html-webpack-plugin": "5.6.3",
+    "jsdom": "^26.0.0",
+    "style-loader": "4.0.0",
+    "webpack": "5.111.1",
+    "webpack-cli": "6.0.1",
+    "webpack-dev-server": "6.0.0"
+  }
+}

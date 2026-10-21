@@ -1,0 +1,12 @@
+{
+  "name": "@fitforge/shared",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./ui": "./src/ui.jsx",
+    "./styles": "./src/styles.css",
+    "./storage": "./src/storage.js",
+    "./domain": "./src/domain.js"
+  }
+}
