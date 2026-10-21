@@ -4,7 +4,7 @@ Aplicativo de treino de academia desenvolvido em **React**, utilizando **Module 
 
 ## Endereço publicado
 
-**Site:** [Abrir FitForge](https://orange-glacier-0887de110.2.azurestaticapps.net/)
+**Site:** [Abrir FitForge](https://fitforgevalentin.z38.web.core.windows.net/)
 
 Hospedado como **site estático em uma Conta de Armazenamento do Azure** (Azure Storage, contêiner `$web`).
 
