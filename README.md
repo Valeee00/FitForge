@@ -6,7 +6,7 @@ Aplicativo de treino de academia desenvolvido em **React**, utilizando **Module 
 
 **Site:** [Abrir FitForge](https://orange-glacier-0887de110.2.azurestaticapps.net/)
 
-Hospedado no Azure Static Web Apps.
+Hospedado como **site estático em uma Conta de Armazenamento do Azure** (Azure Storage, contêiner `$web`).
 
 ## Repositórios do projeto
 
@@ -38,7 +38,7 @@ Navegador ──> API Gateway + BFF ──> treinos-service   (/api/treinos)
 - O menu lateral mostra **Sincronizado com a nuvem** ou **Offline**.
 - Sem `FITFORGE_API_URL`, o app funciona como na Atividade 13, só com `localStorage`.
 
-No GitHub, cadastre a URL em **Settings → Secrets and variables → Actions → aba Variables → New repository variable**: nome `FITFORGE_API_URL`, valor `https://<seu-gateway>.azurewebsites.net`. O workflow usa essa variável no build.
+No GitHub, cadastre a URL em **Settings → Secrets and variables → Actions → aba Variables → New repository variable**: nome `FITFORGE_API_URL`, valor `https://<seu-gateway>.azurewebsites.net`. O workflow `.github/workflows/deploy-azure-storage.yml` usa essa variável no build e envia o `dist/` para a conta de armazenamento.
 
 Detalhes em [docs/ARQUITETURA.md](docs/ARQUITETURA.md).
 

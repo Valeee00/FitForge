@@ -1,0 +1,44 @@
+# Publica o FitForge como site estático numa Conta de Armazenamento do Azure (contêiner $web).
+# Configuração no GitHub (Settings -> Secrets and variables -> Actions):
+#   Secrets   -> AZURE_STORAGE_CONNECTION_STRING: cadeia de conexão da conta de armazenamento
+#                (Conta de armazenamento -> Segurança + rede -> Chaves de acesso -> Cadeia de conexão)
+#   Variables -> FITFORGE_API_URL: URL do FitForge-API_Gateway (ex.: https://xxx.azurewebsites.net)
+#                Vazia = o app funciona só com localStorage.
+name: Deploy FitForge (Azure Storage)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configurar Node 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Instalar dependências
+        run: npm ci
+
+      - name: Testes, build e integração da federação
+        run: npm run check
+        env:
+          FITFORGE_API_URL: ${{ vars.FITFORGE_API_URL }}
+
+      - name: Enviar dist/ para o contêiner $web
+        env:
+          AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_STORAGE_CONNECTION_STRING }}
+        run: |
+          # Chunks com hash primeiro; remoteEntry.js e index.html por último e sem cache,
+          # para o navegador nunca pedir um chunk que ainda não foi enviado.
+          az storage blob upload-batch --destination '$web' --source dist --overwrite \
+            --pattern '*.[0-9a-f]*.js' --content-cache-control 'public, max-age=31536000, immutable' --only-show-errors
+          az storage blob upload-batch --destination '$web' --source dist --overwrite \
+            --content-cache-control 'no-cache' --only-show-errors
+          echo "Site publicado. Endereço: Conta de armazenamento -> Site estático -> Ponto de extremidade primário"
